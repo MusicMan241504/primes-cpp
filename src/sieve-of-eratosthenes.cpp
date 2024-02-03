@@ -18,7 +18,7 @@ void printLoop(const T& a) {
 	std::cout << '\n';
 }
 
-void printPrimes(const std::vector<bool>& nums, const size_t maxN) {
+void printPrimes(const std::vector<bool>& nums, const size_t& maxN) {
 	for (size_t i{2}; i < maxN; i++) {
 		if (nums[i-2]) {
 			std::cout << i << ' ';
@@ -27,23 +27,36 @@ void printPrimes(const std::vector<bool>& nums, const size_t maxN) {
 	std::cout << '\n';
 }
 
+void printPrimes(const std::vector<size_t>& nums, const size_t& maxN) {
+	for (size_t i{2}; i < maxN; i++) {
+		if (nums[i-2]==0) {
+			std::cout << i << ' ';
+		}
+	}
+	std::cout << '\n';
+}
+
 int sieve() {
-	size_t maxN {1000000000};
-	std::vector<bool> nums(maxN,true); // if true can be prime
+	size_t maxN {100};
+	std::vector<size_t> nums(maxN,0); // if true can be prime
+	
 					   // if false definetely isn't prime
 	for (size_t i{2}; i*i < maxN; i++) { // iterate through 2...maxN
 					   // largest factor of maxN is sqrt(maxN) so p^2 < maxN
-		if (nums[i-2]) { // if not crossed out
+		if (nums[i-2]==0) { // if not crossed out
 
-			for (size_t j{i}; i*i+i*j <=maxN; j++) { // iterates to calculate multiples of i
-								 // only need to check n > i^2 as any nums below that will already be crossed out so check for i^2 + j, i^2 + 2j, i^2 + 3j. Which is i^2 + i*j
-				nums[i*i+i*j-2] = false;
+			for (size_t j{i}; i*j <=maxN; j++) { // iterates to calculate multiples of i
+// only need to check n >= i^2 as any nums below that will already be crossed out so check for i^2, i^2 + j, i^2 + 2j, i^2 + 3j. Which is i^2 + i*j.
+// This can be simplified to i(i+j)
+// If j=i and each iteration j++
+// Then ij is the multiples of i >= i^2
+								
+				nums[i*j-2] += 1;
 			}
 		}
 	}
-
-	//printLoop(nums);
-	//printPrimes(nums,maxN);
+	printLoop(nums);
+	printPrimes(nums,maxN);
 	
 
 
