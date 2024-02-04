@@ -43,13 +43,14 @@ void printPrimes(const std::vector<size_t>& nums, const size_t& maxN) {
 }
 
 int sieve() {
-	size_t maxN {10000000000};
-	std::vector<bool> nums(maxN/2,true); // if true can be prime
+	size_t maxN {100};
+	std::vector<bool> nums((maxN-1)/3,true); // if true can be prime
 	
 					   // if false definetely isn't prime
-	for (size_t i{3}; i*i < maxN; i+=2) { // iterate through 2...maxN
+	size_t index {0};
+	for (size_t i{5}; i*i < maxN; index++) { // iterate through 2...maxN
 					   // largest factor of maxN is sqrt(maxN) so p^2 < maxN
-		if (nums[(i-3)/2]) { // if not crossed out
+		if (nums[index]) { // if not crossed out
 
 			for (size_t j{i}; i*j <=maxN; j+=2) { // iterates to calculate multiples of i
 // only need to check n >= i^2 as any nums below that will already be crossed out so check for i^2, i^2 + j, i^2 + 2j, i^2 + 3j. Which is i^2 + i*j.
